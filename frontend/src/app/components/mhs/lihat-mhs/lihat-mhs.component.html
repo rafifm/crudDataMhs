@@ -1,0 +1,98 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row >
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+      <ul fxLayout="row" fxLayoutGap="20px">
+        <li>
+          <button mat-icon-button (click)="toggleSideBar($event)">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </li>
+        <li>
+          <span style="color:yellow">Aplikasi</span>
+        </li>
+      </ul>
+      <h3 >Pengguna</h3>  
+      <ul fxLayout="row" fxLayoutGap="20px">
+        <li>
+          <h5>Nama</h5>
+        </li>
+        <li>
+          <button mat-raised-button color="primary" (click)="logout()"  >
+            Log Out
+          </button>
+        </li>
+      </ul>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-drawer-container>
+  <mat-drawer mode="side" [opened]="sideBarOpen"> 
+    <mat-nav-list>
+      <div class="profile-card">
+        <div class="header">
+          <h2>nama mahasiswa</h2>
+          <h4>email mahasiswa</h4>
+        </div>
+      </div>
+
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div style="text-align: center;">
+      <h4> Tambah pengguna </h4>
+    </div>
+    <mat-card>
+      <form [formGroup]="formMhs" (submit)="daftar()" >
+        <mat-form-field>
+            <input
+              matInput
+              type="text"
+              formControlName="nama_mhs"
+              placeholder="Nama">
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="umur_mhs"
+            placeholder="umur">
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit">Daftar
+        </button>
+      </form>
+    </mat-card>
+    <mat-card>
+      <table mat-table [dataSource]='mhs' class="mat-elevation-z8">
+        <ng-container matColumnDef="nama">
+          <th mat-header-cell *matHeaderCellDef> Nama </th>
+          <td mat-cell *matCellDef="let mhs">{{mhs.nama_mhs}}</td>
+        </ng-container>
+        <ng-container matColumnDef="umur">
+          <th mat-header-cell *matHeaderCellDef>Peran</th>
+          <td mat-cell *matCellDef="let mhs">{{mhs.umur_mhs}}</td>
+        </ng-container>
+        <ng-container matColumnDef="aksi">
+          <th mat-header-cell *matHeaderCellDef> Aksi </th>
+          <td mat-cell *matCellDef="let mhs"> 
+            <div >
+              <a mat-button color="warn" [routerLink]="[mhs.id]">
+                <mat-icon>Edit</mat-icon>
+              </a>
+            </div>
+            <div >
+              <button mat-button color="warn" (click)="hapusPengguna(mhs.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="kolomMhs"></tr>
+        <tr mat-row *matRowDef="let row; columns: kolomMhs;"></tr>
+      </table>
+    </mat-card>
+  </mat-drawer-content>
+</mat-drawer-container>

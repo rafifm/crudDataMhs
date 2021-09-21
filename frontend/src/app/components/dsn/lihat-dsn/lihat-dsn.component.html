@@ -1,0 +1,98 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row >
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+      <ul fxLayout="row" fxLayoutGap="20px">
+        <li>
+          <button mat-icon-button (click)="toggleSideBar($event)">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </li>
+        <li>
+          <span style="color:yellow">Aplikasi</span>
+        </li>
+      </ul>
+      <h3 >Pengguna</h3>  
+      <ul fxLayout="row" fxLayoutGap="20px">
+        <li>
+          <h5>Nama</h5>
+        </li>
+        <li>
+          <button mat-raised-button color="primary">
+            Log Out
+          </button>
+        </li>
+      </ul>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-drawer-container>
+  <mat-drawer mode="side" [opened]="sideBarOpen"> 
+    <mat-nav-list>
+      <div class="profile-card">
+        <div class="header">
+          <h2>nama dosen</h2>
+          <h4>email dosen</h4>
+        </div>
+      </div>
+
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div style="text-align: center;">
+      <h4> Tambah pengguna </h4>
+    </div>
+    <mat-card>
+      <form [formGroup]="formDsn" (submit)="daftar()" >
+        <mat-form-field>
+            <input
+              matInput
+              type="text"
+              formControlName="nama_dsn"
+              placeholder="Nama">
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            formControlName="umur_dsn"
+            placeholder="umur">
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit">Daftar
+        </button>
+      </form>
+    </mat-card>
+    <mat-card>
+      <table mat-table [dataSource]='dsn' class="mat-elevation-z8">
+        <ng-container matColumnDef="nama">
+          <th mat-header-cell *matHeaderCellDef> Nama </th>
+          <td mat-cell *matCellDef="let dsn">{{dsn.nama_dsn}}</td>
+        </ng-container>
+        <ng-container matColumnDef="umur">
+          <th mat-header-cell *matHeaderCellDef>Peran</th>
+          <td mat-cell *matCellDef="let dsn">{{dsn.umur_dsn}}</td>
+        </ng-container>
+        <ng-container matColumnDef="aksi">
+          <th mat-header-cell *matHeaderCellDef> Aksi </th>
+          <td mat-cell *matCellDef="let dsn"> 
+            <div >
+              <button mat-button color="warn" [routerLink]="[dsn.id]">
+                <mat-icon>Edit</mat-icon>
+              </button>
+            </div>
+            <div >
+              <button mat-button color="warn" (click)="hapusPengguna(dsn.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="kolomDsn"></tr>
+        <tr mat-row *matRowDef="let row; columns: kolomDsn;"></tr>
+      </table>
+    </mat-card>
+  </mat-drawer-content>
+</mat-drawer-container>
